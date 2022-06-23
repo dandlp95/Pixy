@@ -1,12 +1,10 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const mongoose = require("mongoose");
-require("dotenv").config();
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-
-mongoose.connect(process.env.MONGO_URI).then(()=>{
-
+mongoose.connect(process.env.MONGO_URI).then(() => {
    app.use(bodyParser.json()).use('/', require('./routes/index'));
 
    // Listening port
@@ -14,10 +12,5 @@ mongoose.connect(process.env.MONGO_URI).then(()=>{
 
    app.listen(port, () => {
       console.log(`App listening on port ${port}`);
-
+   });
 });
-})
-
-
-
-
