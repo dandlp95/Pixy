@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 require("dotenv").config();
+
 const {
   logError,
   returnError,
@@ -14,7 +15,10 @@ require("./models/clips");
 require("./models/photos");
 require("./models/albums");
 
-mongoose.connect(process.env.MONGO_URI).then(() => {
+mongoose.connect(process.env.MONGO_URI, { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true 
+}).then(() => {
   app
     .use(bodyParser.json())
     .use("/", require("./routes/index"))
