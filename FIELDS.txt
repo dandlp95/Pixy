@@ -1,4 +1,30 @@
 users:
+first name
+last name
 username
 password
 email
+location
+photos
+albums
+likes
+
+photos:
+photo name
+tags (array)
+location
+album they are included in
+camera used
+
+clips:
+clip name
+width
+height
+resolution
+tags (array)
+location
+
+album:
+album name
+photos included
+album tag
