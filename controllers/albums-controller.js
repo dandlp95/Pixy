@@ -1,74 +1,94 @@
-const mongoose = require('mongoose');
-const Album = mongoose.model('Album');
-const ObjectId = require('mongoose').ObjectId; // if this doesn't work it's const ObjectId = require('mongodb').ObjectId;
+const mongoose = require("mongoose");
+const Album = mongoose.model("Album");
+
+const {
+  Api400Error,
+  Api404Error,
+  Api401Error,
+} = require("../middleware/error-handling/ApiErrors");
 
 // Create new album
 exports.addAlbum = (req, res) => {
-   const album = new Album(req.body);
-   album
-      .save()
-      .then((album) => {
-         res.json(album);
-      })
-      .catch((err) => {
-         throw Error(err);
-      });
-   console.log('new album added');
+  const album = new Album(req.body);
+  album
+    .save()
+    .then((album) => {
+      res.json(album);
+    })
+    .catch((err) => {
+      throw new Api400Error("Bad request.");
+    });
+  console.log("new album added");
 };
 
 // Get all albums
 exports.getAlbums = async (req, res) => {
-   const albums = await Album.find();
-
-   if (albums) {
+  try {
+    const albums = await Album.find({});
+    if (albums) {
       res.status(200).json(albums);
-      console.log('All Albums! From the albumsController file.');
-   } else {
-      res.status(500).json(response.error || 'An error occurred while getting the albums list.');
-   }
+      console.log("All Albums! From the albumsController file.");
+    } else {
+      throw new Api404Error("Not found.");
+    }
+  } catch (err) {
+    next(err);
+  }
 };
 
 // Get Album By Id
 exports.getAlbum = async (req, res) => {
-   const albumId = new ObjectId(req.params.id);
-   const result = await Album.find({ _id: albumId });
-
-   if (result) {
-      res.status(200).json(result[0]);
-      console.log(`One Album: ${req.params.id}! From the albumController file.`);
-   } else {
-      res.status(500).json(response.error || 'An error occurred while getting one album.');
-   }
+  try {
+    const result = await Album.findById(req.params.id);
+    if (result) {
+      res.status(200).json(result);
+      console.log(
+        `One Album: ${req.params.id}! From the albumController file.`
+      );
+    } else {
+      throw new Api404Error("Album not found.");
+    }
+  } catch (err) {
+    next(err);
+  }
 };
 
 // Edit album by id
-exports.editAlbum = async (req, res) => {
-   const albumId = new ObjectId(req.params.id);
-   const album = {
-      // FILL IN FIELDS FROM MODEL HERE
-   };
+exports.editAlbum = (req, res) => {
+  const album = {
+    name: req.body.name,
+    photos: req.body.photos,
+    user: req.body.user,
+    tags: req.body.tags,
+  };
 
-   const result = await Album.replaceOne({ _id: albumId }, album);
+  for (field in album) {
+    if (field === null) {
+      delete field;
+    }
+  }
 
-   if (result) {
-      res.status(200).json(result[0]);
-      console.log(`Modified Album: ${req.params.id}! From the albumController file.`);
-   } else {
-      res.status(500).json(response.error || 'An error occurred while modifing the album.');
-   }
-
-   console.log(album);
+  Album.findByIdAndUpdate(req.arams.id, album, (err, doc) => {
+    if (err) {
+      next(err);
+    } else {
+      console.log(doc);
+      res.status(200).json(doc);
+    }
+  });
 };
 
 // Delete album by id
-exports.deleteAlbum = async (req, res) => {
-   const albumId = new ObjectId(req.params.id);
-   const result = await Album.deleteOne({ _id: albumId });
-
-   if (result) {
-      res.status(200).json(result[0]);
-      console.log(`Deleted Album: ${req.params.id}! From the albumController file.`);
-   } else {
-      res.status(500).json(response.error || 'An error occurred while deleting the album.');
-   }
+exports.deleteAlbum = (req, res) => {
+  Album.findByIdAndDelete(req.params.id, (err, doc) => {
+    if (err) {
+      next(err);
+    } else {
+      if (doc === null) {
+        res.status(200).send("Already Deleted.");
+      } else {
+        res.status(200).json(doc);
+      }
+    }
+  });
 };
