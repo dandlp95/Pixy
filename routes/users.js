@@ -8,4 +8,4 @@ usersRoute.post('/', usersController.addUser);          // Add an user
 usersRoute.put('/:id', usersController.editUser);       // Edit an user
 usersRoute.delete('/:id', usersController.deleteUser);  // Delete an user
 
-module.exports = usersRoutes;
+module.exports = usersRoute;
