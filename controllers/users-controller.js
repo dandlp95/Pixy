@@ -39,7 +39,7 @@ exports.getUser = async (req, res) => {
    } else {
       res.status(500).json(response.error || 'An error occurred while getting one user.');
    }
-};
+}; 
 
 // Edit user by id
 exports.editUser = async (req, res) => {
