@@ -8,5 +8,4 @@ db.mongoose = mongoose;
 db.url = config.url;
 db.moods = require('./moods.js')(mongoose);
 db.users = require('./users.js')(mongoose);
-
 module.exports = db;

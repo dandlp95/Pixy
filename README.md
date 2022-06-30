@@ -11,27 +11,22 @@ Please document any errors or bugs, and how you fixed them here.
 
 ### Commiting changes
 
-*Prepares changes to be committed*  
-**git add .** 
+ 
+**git add .** *Prepares changes to be committed* 
 
-*Commits changes*
-**git commit -m "Add message about commit here"**
+
+**git commit -m "Add message about commit here"** *Commits changes*
 
 **git push**
 
-*If you are commiting from a new branch you haven't published in the remote repository, you will need to push with this command instead of git push.*
-**git push --set-upstream origin [your branch name]**
-
+**git push --set-upstream origin [your branch name]** *If you are commiting from a new branch you haven't published in the remote repository, you will need to push with this command instead of git push.*
 
 ### Working with branches
 
-*Creates a new branch and switches to that branch*
-**git checkout -b [name of branch here]**
+**git checkout -b [name of branch here]** *Creates a new branch and switches to that branch*
 
-*Displays existing branches in your computer*
-**git branch**
+**git branch** *Displays existing branches in your computer*
 
-*Deletes branch*
-**git branch -d [name of branch here]**
+**git branch -d [name of branch here]** *Deletes branch*
 
 
