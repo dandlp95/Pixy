@@ -26,6 +26,13 @@ app.get('/', (req, res) => {
 });
 //end AuthO code
 
+//Error Handling
+const {
+   logError,
+   returnError,
+ } = require("./middleware/error-handling/errorHandler");
+ 
+
 
 //Mongoose schemas
 require('./models/users')
