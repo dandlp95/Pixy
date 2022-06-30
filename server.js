@@ -42,13 +42,20 @@ require('./models/albums')
 
 
 //Connecting to mongoDB with mongoose
-mongoose.connect(process.env.MONGO_URI).then(() => {
-   app.use(bodyParser.json()).use('/', require('./routes/index'));
-
+mongoose.connect(process.env.MONGO_URI, { 
+   useNewUrlParser: true, 
+   useUnifiedTopology: true 
+ }).then(() => {
+   app
+     .use(bodyParser.json())
+     .use("/", require("./routes/index"))
+     .use(logError)
+     .use(returnError);
+ 
    // Listening port
    const port = process.env.PORT || 3000;
-
+ 
    app.listen(port, () => {
-      console.log(`App listening on port ${port}`);
+     console.log(`App listening on port ${port}`);
    });
-});
+ });
