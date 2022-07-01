@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 
-//AuthO code
+// AuthO code
 const { auth } = require('express-openid-connect');
 
 const config = {
@@ -19,22 +19,23 @@ const config = {
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(auth(config));
+// Currently using for CSS
+app.use(express.static(__dirname + '/public'))
 
 // req.isAuthenticated is provided from the auth router
 app.get('/', (req, res) => {
   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 });
-//end AuthO code
+// end AuthO code
 
-//Error Handling
+// Error Handling
 const {
    logError,
    returnError,
  } = require("./middleware/error-handling/errorHandler");
  
 
-
-//Mongoose schemas
+// Mongoose schemas
 require("./models/users");
 require("./models/clips");
 require("./models/photos");
