@@ -49,30 +49,53 @@
     },
     "/users/": {
       "get": {
-        "description": "",
+        "description": "Get all users from the database.",
         "parameters": [],
         "responses": {
+          "200": 
+          {"description": "Successfully returned all users from the database"
+        },
+        "500": {
+          "description": "There was a problem getting users from the databse"}
+      }},
+
+      "post": {
+        "description": "Creates a new user in the the database",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "example": "Geoffrey"
+                },
+                "lastName": {
+                  "example": "Chaucer"
+                },
+                "email": {
+                  "example": "example@email.com"
+                },
+                "password": {
+                  "example": "12345"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
           "200": {
-            "description": "OK"
+            "description": "Successfully added a new user to the database"
           },
           "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
+            "description": "There was a problem getting users from the databse"}
         }
       }
     },
     "/users/{id}": {
       "get": {
-        "description": "",
+        "description": "Gets a single user by id",
         "parameters": [
           {
             "name": "id",
@@ -83,15 +106,15 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Successfully returned a user from the database"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "There was a problem returning the user information"
           }
         }
       },
       "put": {
-        "description": "",
+        "description": "Modify a user in the database by id",
         "parameters": [
           {
             "name": "id",
@@ -106,29 +129,28 @@
               "type": "object",
               "properties": {
                 "firstName": {
-                  "example": "any"
+                  "example": "William"
                 },
                 "lastName": {
-                  "example": "any"
+                  "example": "Shakespeare"
                 },
                 "email": {
-                  "example": "any"
+                  "example": "playwright@bard.com"
                 },
                 "password": {
-                  "example": "any"
+                  "example": "rose"
                 }
               }
             }
-          }
+           } 
+
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+        "responses": {"200": {
+          "description": "Successfully modified a users."
+        },
+        "500": {
+          "description": "There was a problem modifing the user information"
+        }}
       },
       "delete": {
         "description": "",
@@ -140,14 +162,12 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+        "responses": {"200": {
+          "description": "Successfully deleted a user from the database"
+        },
+        "500": {
+          "description": "There was a problem deleting the user"
+        }}
       }
     },
     "/photos/": {

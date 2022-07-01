@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
-const ObjectId = require('mongoose').ObjectId; // if this doesn't work it's const ObjectId = require('mongodb').ObjectId;
+const ObjectId = require('mongoose').ObjectId; 
 
 // Create new user
 exports.addUser = (req, res) => {
