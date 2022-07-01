@@ -38,19 +38,53 @@
     },
     "/users/": {
       "get": {
-        "description": "",
+        "description": "Get all users from the database.",
         "parameters": [],
-        "responses": {}
-      },
+        "responses": {
+          "200": 
+          {"description": "Successfully returned all users from the database"
+        },
+        "500": {
+          "description": "There was a problem getting users from the databse"}
+      }},
+
       "post": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
+        "description": "Creates a new user in the the database",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "example": "Geoffrey"
+                },
+                "lastName": {
+                  "example": "Chaucer"
+                },
+                "email": {
+                  "example": "example@email.com"
+                },
+                "password": {
+                  "example": "12345"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully added a new user to the database"
+          },
+          "500": {
+            "description": "There was a problem getting users from the databse"}
+        }
       }
     },
     "/users/{id}": {
       "get": {
-        "description": "",
+        "description": "Gets a single user by id",
         "parameters": [
           {
             "name": "id",
@@ -59,19 +93,53 @@
             "type": "string"
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "Successfully returned a user from the database"
+          },
+          "500": {
+            "description": "There was a problem returning the user information"
+          }
+        }
       },
       "put": {
-        "description": "",
+        "description": "Modify a user in the database by id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
-          }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "example": "William"
+                },
+                "lastName": {
+                  "example": "Shakespeare"
+                },
+                "email": {
+                  "example": "playwright@bard.com"
+                },
+                "password": {
+                  "example": "rose"
+                }
+              }
+            }
+           } 
+
         ],
-        "responses": {}
+        "responses": {"200": {
+          "description": "Successfully modified a users."
+        },
+        "500": {
+          "description": "There was a problem modifing the user information"
+        }}
       },
       "delete": {
         "description": "",
@@ -83,7 +151,12 @@
             "type": "string"
           }
         ],
-        "responses": {}
+        "responses": {"200": {
+          "description": "Successfully deleted a user from the database"
+        },
+        "500": {
+          "description": "There was a problem deleting the user"
+        }}
       }
     },
     "/photos/": {
