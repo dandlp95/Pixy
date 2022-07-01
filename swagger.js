@@ -6,7 +6,7 @@ const doc = {
       description: 'A place where photographers can share their work, which users can access and download for free.',
       version: '1.0.0',
    },
-   host: 'http://localhost:3000/',
+   host: 'localhost:3000',
    basePath: '/',
    schemes: ['http'],
    tags: [
