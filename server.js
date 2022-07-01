@@ -23,9 +23,9 @@ app.use(auth(config));
 app.use(express.static(__dirname + '/public'))
 
 // req.isAuthenticated is provided from the auth router
-app.get('/', (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-});
+// app.get('/', (req, res) => {
+//   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+// });
 // end AuthO code
 
 // Error Handling

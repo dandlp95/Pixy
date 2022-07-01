@@ -6,7 +6,7 @@ routes.use('/', require('./swagger'));
 
 // Temporary home page for testing
 routes.get('/', (req, res) => {
-   res.sendFile(path.join(__dirname + '../views/home.html'));
+   res.sendFile(path.join(__dirname + '/../views/home.html'));
 });
 
 routes.use('/users', require('./users'));

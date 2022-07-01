@@ -1,8 +1,54 @@
-// CSS for temporary home page
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+$offw: #e8e8e8;
+$white: white;
+$text-light: white;
+$text-dark: rgb(51, 51, 51);
+$pink: #e49ede;
+
 body {
-   background-color: red;
+   font-family: "Poppins", sans-serif;
+   background-color: $offw;
+   color: $text-light;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   margin-top: 2rem;
+}
+
+h1 {
+   color: $text-dark;
+   margin: 0;
+}
+
+.title {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-bottom: 2rem;
+}
+
+.logo {
+   margin-right: .5rem;
+}
+
+.testing-box {
+   background-color: $white;
+   padding: 2rem;
+   border-radius: 10px;
+   filter: drop-shadow(0px 4px 2px #cfcfcf);
 }
 
 .test-link {
-   color: yellow;
+   background-color: $pink;
+   color: $text-light;
+   border-radius: 6px;
+   padding: .5em 1em;
+   margin: 0 .5rem;
+   text-decoration: none;
+   transition: background-color 200ms;
+   &:hover {
+      background-color: lighten($pink, 5%);
+   }
 }
