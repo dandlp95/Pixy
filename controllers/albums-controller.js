@@ -9,16 +9,20 @@ const {
 
 // Create new album
 exports.addAlbum = (req, res) => {
-  const album = new Album(req.body);
-  album
-    .save()
-    .then((album) => {
-      res.json(album);
-    })
-    .catch((err) => {
-      throw new Api400Error("Bad request.");
-    });
-  console.log("new album added");
+  try {
+    const album = new Album(req.body);
+    album
+      .save()
+      .then((album) => {
+        res.json(album);
+      })
+      .catch((err) => {
+        throw new Api400Error("Bad request.");
+      });
+    console.log("new album added");
+  } catch (err) {
+    next(err);
+  }
 };
 
 // Get all albums
@@ -55,40 +59,48 @@ exports.getAlbum = async (req, res) => {
 
 // Edit album by id
 exports.editAlbum = (req, res) => {
-  const album = {
-    name: req.body.name,
-    photos: req.body.photos,
-    user: req.body.user,
-    tags: req.body.tags,
-  };
+  try {
+    const album = {
+      name: req.body.name,
+      photos: req.body.photos,
+      user: req.body.user,
+      tags: req.body.tags,
+    };
 
-  for (field in album) {
-    if (field === null) {
-      delete field;
+    for (field in album) {
+      if (field === null) {
+        delete field;
+      }
     }
+
+    Album.findByIdAndUpdate(req.arams.id, album, (err, doc) => {
+      if (err) {
+        next(err);
+      } else {
+        console.log(doc);
+        res.status(200).json(doc);
+      }
+    });
+  } catch (err) {
+    next(err);
   }
-
-  Album.findByIdAndUpdate(req.arams.id, album, (err, doc) => {
-    if (err) {
-      next(err);
-    } else {
-      console.log(doc);
-      res.status(200).json(doc);
-    }
-  });
 };
 
 // Delete album by id
 exports.deleteAlbum = (req, res) => {
-  Album.findByIdAndDelete(req.params.id, (err, doc) => {
-    if (err) {
-      next(err);
-    } else {
-      if (doc === null) {
-        res.status(200).send("Already Deleted.");
+  try {
+    Album.findByIdAndDelete(req.params.id, (err, doc) => {
+      if (err) {
+        next(err);
       } else {
-        res.status(200).json(doc);
+        if (doc === null) {
+          res.status(200).send("Already Deleted.");
+        } else {
+          res.status(200).json(doc);
+        }
       }
-    }
-  });
+    });
+  } catch (err) {
+    next(err);
+  }
 };
