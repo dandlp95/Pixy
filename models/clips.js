@@ -7,12 +7,12 @@ const clipSchema = new Schema({
       type: String,
       required: true,
    },
-
-   clipDescription: {
+   
+   description: {
       type: String,
    },
 
-   encodedClip: {
+   encodedMedia: {
       type: String,
       required: true,
    },
