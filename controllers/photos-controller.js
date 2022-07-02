@@ -64,22 +64,25 @@ exports.getPhoto = async (req, res) => {
 // Edit photo by id
 exports.editPhoto = async (req, res) => {
    try {
-      const photoId = new ObjectId(req.params.id);
+      //const photoId = new ObjectId(req.params.id);
       const photo = {
-         // FILL IN FIELDS FROM MODEL HERE
+         name: req.body.name,
+         photoDescription: req.body.photoDescription,
+         encodedPic: req.body.encodedPic,
+         location: req.body.location,
+         user: req.body.user,
+         cameraUsed: req.body.cameraUsed,
+         tags: req.body.tags
       };
 
-      const result = await Photo.replaceOne({
-         _id: photoId
-      }, photo);
-
-      if (result) {
-         res.status(200).json(result[0]);
-         console.log(`Modified Photo: ${req.params.id}! From the photoController file.`);
-      } else {
-         res.status(500).json(response.error || 'An error occurred while modifing the photo.');
-      }
-
+      Photo.findByIdAndUpdate(req.params.id, photo, (err, doc) => {
+         if (err) {
+            next(err);
+          } else {
+            console.log(doc);
+            res.status(200).json(doc);
+          }
+        });
       console.log(photo);
    } catch (err) {
       next(err);
@@ -89,17 +92,17 @@ exports.editPhoto = async (req, res) => {
 // Delete photo by id
 exports.deletePhoto = async (req, res) => {
    try {
-      const photoId = new ObjectId(req.params.id);
-      const result = await Photo.deleteOne({
-         _id: photoId
-      });
-
-      if (result) {
-         res.status(200).json(result[0]);
-         console.log(`Deleted Photo: ${req.params.id}! From the photoController file.`);
-      } else {
-         res.status(500).json(response.error || 'An error occurred while deleting the photo.');
-      }
+      Photo.findByIdAndDelete(req.params.id, (err, doc) => {
+         if (err) {
+           next(err);
+         } else {
+           if (doc === null) {
+             res.status(200).send("Already Deleted.");
+           } else {
+             res.status(200).json(doc);
+           }
+         }
+       });
    } catch (err) {
       next(err);
    }

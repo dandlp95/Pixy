@@ -6,7 +6,7 @@ const {
    Api400Error,
    Api404Error,
    Api401Error,
- } = require("../middleware/error-handling/ApiErrors");
+} = require("../middleware/error-handling/ApiErrors");
 
 // Create new clip
 exports.addClip = (req, res) => {
@@ -23,7 +23,7 @@ exports.addClip = (req, res) => {
       console.log('new clip added');
    } catch (err) {
       next(err);
-    }
+   }
 };
 
 // Get all clips
@@ -39,7 +39,7 @@ exports.getClips = async (req, res) => {
       }
    } catch (err) {
       next(err);
-    }
+   }
 };
 
 // Get Clip By Id
@@ -58,49 +58,52 @@ exports.getClip = async (req, res) => {
       }
    } catch (err) {
       next(err);
-    }
+   }
 };
 
 // Edit clip by id
 exports.editClip = async (req, res) => {
    try {
-      const clipId = new ObjectId(req.params.id);
+      //const clipId = new ObjectId(req.params.id);
       const clip = {
-         // FILL IN FIELDS FROM MODEL HERE
+         name: req.body.name,
+         clipDescription: req.body.clipDescription,
+         encodedClip: req.body.encodedClip,
+         location: req.body.location,
+         user: req.body.user,
+         cameraUsed: req.body.cameraUsed,
+         tags: req.body.tags
       };
 
-      const result = await Clip.replaceOne({
-         _id: clipId
-      }, clip);
-
-      if (result) {
-         res.status(200).json(result[0]);
-         console.log(`Modified Clip: ${req.params.id}! From the clipController file.`);
-      } else {
-         res.status(500).json(response.error || 'An error occurred while modifing the clip.');
-      }
-
+      Clip.findByIdAndUpdate(req.params.id, clip, (err, doc) => {
+         if (err) {
+            next(err);
+          } else {
+            console.log(doc);
+            res.status(200).json(doc);
+          }
+        });
       console.log(clip);
    } catch (err) {
       next(err);
-    }
+   }
 };
 
 // Delete clip by id
 exports.deleteClip = async (req, res) => {
    try {
-      const clipId = new ObjectId(req.params.id);
-      const result = await Clip.deleteOne({
-         _id: clipId
-      });
-
-      if (result) {
-         res.status(200).json(result[0]);
-         console.log(`Deleted Clip: ${req.params.id}! From the clipController file.`);
-      } else {
-         res.status(500).json(response.error || 'An error occurred while deleting the clip.');
-      }
+      Clip.findByIdAndDelete(req.params.id, (err, doc) => {
+         if (err) {
+           next(err);
+         } else {
+           if (doc === null) {
+             res.status(200).send("Already Deleted.");
+           } else {
+             res.status(200).json(doc);
+           }
+         }
+       });
    } catch (err) {
       next(err);
-    }
+   }
 };
