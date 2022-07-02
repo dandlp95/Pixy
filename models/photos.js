@@ -9,18 +9,17 @@ const photoSchema = new Schema({
       required: true,
    },
 
-   photoDescription: {
+   description: {
       type: String,
    },
 
-   encodedPic: {
+   encodedMedia: {
       type: String,
       required: true,
    },
 
    location: {
       type: String,
-      required: true,
    },
 
    user: {

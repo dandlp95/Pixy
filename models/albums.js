@@ -18,6 +18,7 @@ const albumSchema = new Schema({
    user: {
       type: mongoose.Types.ObjectId,
       ref: 'User',
+      required: true
    },
 
    tags: [String]
