@@ -1,35 +1,34 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-
 const clipSchema = new Schema({
-   name: {
-      type: String,
-      required: true,
-   },
-   
-   description: {
-      type: String,
-   },
+  name: {
+    type: String,
+    required: true,
+  },
 
-   encodedMedia: {
-      type: String,
-      required: true,
-   },
+  description: {
+    type: String,
+  },
 
-   location: {
-      type: String,
-      required: true,
-   },
+  encodedMedia: {
+    type: String,
+    required: true,
+  },
 
-   user: {
-      type: mongoose.Types.ObjectId,
-      ref: 'User',
-   },
-   cameraUsed: {
-      type: String,
-   },
-   tags: [String]
+  location: {
+    type: String,
+    required: true,
+  },
+
+  user: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+  },
+  cameraUsed: {
+    type: String,
+  },
+  tags: [String],
 });
 
-module.exports = mongoose.model('Clip', clipSchema);
+module.exports = mongoose.model("Clip", clipSchema);
