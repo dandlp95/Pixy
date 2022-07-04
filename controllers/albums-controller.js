@@ -73,7 +73,7 @@ exports.editAlbum = (req, res) => {
       }
     }
 
-    Album.findByIdAndUpdate(req.arams.id, album, (err, doc) => {
+    Album.findByIdAndUpdate(req.params.id, album, (err, doc) => {
       if (err) {
         next(err);
       } else {
