@@ -8,25 +8,26 @@ const {
 } = require("../middleware/error-handling/ApiErrors");
 
 // Create new album
-exports.addAlbum = (req, res) => {
+exports.addAlbum = (req, res, next) => {
   try {
     const album = new Album(req.body);
     album
       .save()
       .then((album) => {
+        console.log("new album added");
         res.json(album);
       })
       .catch((err) => {
-        throw new Api400Error("Bad request.");
+        const error400 = new Api400Error(err.message);
+        next(error400);
       });
-    console.log("new album added");
   } catch (err) {
     next(err);
   }
 };
 
 // Get all albums
-exports.getAlbums = async (req, res) => {
+exports.getAlbums = async (req, res, next) => {
   try {
     const albums = await Album.find({});
     if (albums) {
@@ -41,7 +42,7 @@ exports.getAlbums = async (req, res) => {
 };
 
 // Get Album By Id
-exports.getAlbum = async (req, res) => {
+exports.getAlbum = async (req, res, next) => {
   try {
     const result = await Album.findById(req.params.id);
     if (result) {
@@ -53,12 +54,12 @@ exports.getAlbum = async (req, res) => {
       throw new Api404Error("Album not found.");
     }
   } catch (err) {
-    next(err);
+    next(err); // throw wont work here because its a "callback"
   }
 };
 
 // Edit album by id
-exports.editAlbum = (req, res) => {
+exports.editAlbum = (req, res, next) => {
   try {
     const album = {
       name: req.body.name,
@@ -75,7 +76,8 @@ exports.editAlbum = (req, res) => {
 
     Album.findByIdAndUpdate(req.params.id, album, (err, doc) => {
       if (err) {
-        next(err);
+        const err400 = new Api400Error(err.message);
+        next(err400);
       } else {
         console.log(doc);
         res.status(200).json(doc);
@@ -87,20 +89,17 @@ exports.editAlbum = (req, res) => {
 };
 
 // Delete album by id
-exports.deleteAlbum = (req, res) => {
-  try {
-    Album.findByIdAndDelete(req.params.id, (err, doc) => {
-      if (err) {
-        next(err);
+exports.deleteAlbum = (req, res, next) => {
+  Album.findByIdAndDelete(req.params.id, (err, doc) => {
+    if (err) {
+      const err400 = new Api400Error(err.message);
+      next(err400);
+    } else {
+      if (doc === null) {
+        res.status(200).send("Already Deleted.");
       } else {
-        if (doc === null) {
-          res.status(200).send("Already Deleted.");
-        } else {
-          res.status(200).json(doc);
-        }
+        res.status(200).json(doc);
       }
-    });
-  } catch (err) {
-    next(err);
-  }
+    }
+  });
 };

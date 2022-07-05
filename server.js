@@ -3,22 +3,26 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 require("dotenv").config();
+const {
+  logErrorMiddleware,
+  returnError,
+} = require("./middleware/error-handling/errorHandler");
 
 
 // AuthO code
-const { auth } = require('express-openid-connect');
+// const { auth } = require('express-openid-connect');
 
-const config = {
-  authRequired: false,
-  auth0Logout: true,
-  secret: process.env.SECRET,
-  baseURL: process.env.BASE_URL,
-  clientID: process.env.CLIENT_ID,
-  issuerBaseURL: process.env.ISSUER_BASE_URL
-};
+// const config = {
+//   authRequired: false,
+//   auth0Logout: true,
+//   secret: process.env.SECRET,
+//   baseURL: process.env.BASE_URL,
+//   clientID: process.env.CLIENT_ID,
+//   issuerBaseURL: process.env.ISSUER_BASE_URL
+// };
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
-app.use(auth(config));
+// app.use(auth(config));
 // Currently using for CSS
 app.use(express.static(__dirname + '/public'))
 
@@ -27,13 +31,6 @@ app.use(express.static(__dirname + '/public'))
 //   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 // });
 // end AuthO code
-
-// Error Handling
-const {
-   logError,
-   returnError,
- } = require("./middleware/error-handling/errorHandler");
- 
 
 // Mongoose schemas
 require("./models/users");
@@ -48,7 +45,7 @@ mongoose.connect(process.env.MONGO_URI, {
   app
     .use(bodyParser.json())
     .use("/", require("./routes/index"))
-    .use(logError)
+    .use(logErrorMiddleware)
     .use(returnError);
 
   // Listening port

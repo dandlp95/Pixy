@@ -1,27 +1,27 @@
-
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-
 const albumSchema = new Schema({
-   name: {
-      type: String,
-      required: true
-   },
+  name: {
+    type: String,
+    required: true,
+  },
 
-   //Should be an array of photo id's?
-   photos: [{
+  //Should be an array of photo id's?
+  photos: [
+    {
       type: mongoose.Types.ObjectId,
-      ref: 'Photo'
-   }],
+      ref: "Photo",
+    },
+  ],
 
-   user: {
-      type: mongoose.Types.ObjectId,
-      ref: 'User',
-      required: true
-   },
+  user: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 
-   tags: [String]
+  tags: [String],
 });
 
-module.exports = mongoose.model('Album', albumSchema);
+module.exports = mongoose.model("Album", albumSchema);

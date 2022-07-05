@@ -4,7 +4,7 @@ const BaseError = require("./baseError");
 class Api400Error extends BaseError {
   constructor(
     name,
-    statusCode = httpStatusCodes.UNAUTHORIZED,
+    statusCode = httpStatusCodes.BAD_REQUEST,
     description = "Bad Request.",
     isOperational = true
   ) {
