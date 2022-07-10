@@ -1,7 +1,10 @@
 // Albums Route
 const albumsRoute = require("express").Router();
 const albumsController = require("../controllers/albums-controller");
-
+const {
+  addAlbumValidation,
+  editAlbumValidation,
+} = require("../middleware/validators/validators");
 // Get all albums
 albumsRoute.get(
   "/",
@@ -32,6 +35,7 @@ albumsRoute.get(
 // Add an album
 albumsRoute.post(
   "/add",
+  addAlbumValidation,
   albumsController.addAlbum
   /* #swagger.summary = 'Adds a new Album.' */
   /* #swagger.description = 'Adds a new Album to the database .' */
@@ -51,6 +55,7 @@ albumsRoute.post(
 // Edit an album
 albumsRoute.put(
   "/edit/:id",
+  editAlbumValidation,
   albumsController.editAlbum
   /* #swagger.summary = 'Edits an Album by it's Id.' */
   /* #swagger.description = 'Send updated information about the Album by Id to the database.' */

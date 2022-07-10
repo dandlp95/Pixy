@@ -11,22 +11,28 @@ const {
 } = require("../middleware/error-handling/ApiErrors");
 
 operations = {};
+const { validationResult } = require("express-validator");
 
 // Create new clip
 operations.add = (Schema) => {
   return (req, res, next) => {
+    const errors = validationResult(req);
     try {
-      const newDoc = new Schema(req.body);
-      newDoc
-        .save()
-        .then((doc) => {
-          console.log("new document added");
-          res.json(doc);
-        })
-        .catch((err) => {
-          const error = new Api400Error(err.message);
-          next(error);
-        });
+      if (!errors.isEmpty()) {
+        res.status(422).send(errors.array());
+      } else {
+        const newDoc = new Schema(req.body);
+        newDoc
+          .save()
+          .then((doc) => {
+            console.log("new document added");
+            res.json(doc);
+          })
+          .catch((err) => {
+            const error = new Api400Error(err.message);
+            next(error);
+          });
+      }
     } catch (err) {
       next(err);
     }
@@ -72,33 +78,38 @@ operations.getDocById = (Schema) => {
 // Edit clip by id
 operations.editMedia = (Schema) => {
   return (req, res, next) => {
+    const errors = validationResult(req);
     try {
-      //const clipId = new ObjectId(req.params.id);
-      const media = {
-        name: req.body.name,
-        clipDescription: req.body.clipDescription,
-        encodedClip: req.body.encodedClip,
-        location: req.body.location,
-        user: req.body.user,
-        cameraUsed: req.body.cameraUsed,
-        tags: req.body.tags,
-      };
+      if (!errors.isEmpty()) {
+        res.status(422).send(errors.array());
+      } else {
+        //const clipId = new ObjectId(req.params.id);
+        const media = {
+          name: req.body.name,
+          clipDescription: req.body.clipDescription,
+          encodedClip: req.body.encodedClip,
+          location: req.body.location,
+          user: req.body.user,
+          cameraUsed: req.body.cameraUsed,
+          tags: req.body.tags,
+        };
 
-      for (field in media) {
-        if (field === null) {
-          delete field;
+        for (field in media) {
+          if (field === null) {
+            delete field;
+          }
         }
+
+        Schema.findByIdAndUpdate(req.params.id, media, (err, doc) => {
+          if (err) {
+            const err400 = new Api400Error(err.message);
+            next(err400);
+          } else {
+            console.log(doc);
+            res.status(200).json(doc);
+          }
+        });
       }
-
-      Schema.findByIdAndUpdate(req.params.id, media, (err, doc) => {
-        if (err) {
-          const err400 = new Api400Error(err.message);
-          next(err400);
-        } else {
-          console.log(doc);
-          res.status(200).json(doc);
-        }
-      });
     } catch (err) {
       next(err);
     }

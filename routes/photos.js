@@ -1,6 +1,10 @@
 // Photos route
 const photosRoute = require("express").Router();
 const photosController = require("../controllers/photos-controller");
+const {
+  addMediaValidation,
+  editMediaValidation,
+} = require("../middleware/validators/validators");
 
 // Get all photos
 photosRoute.get(
@@ -32,6 +36,7 @@ photosRoute.get(
 // Add an photo
 photosRoute.post(
   "/add",
+  addMediaValidation,
   photosController.addPhoto
   /* #swagger.summary = 'Adds a new Photo.' */
   /* #swagger.description = 'Adds a new Photo to the database .' */
@@ -51,6 +56,7 @@ photosRoute.post(
 // Edit an photo
 photosRoute.put(
   "/edit/:id",
+  editMediaValidation,
   photosController.editPhoto
   /* #swagger.summary = 'Edits a Photo by it's Id.' */
   /* #swagger.description = 'Send updated information about the Photo by Id to the database.' */

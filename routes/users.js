@@ -1,7 +1,10 @@
 // Users route
 const usersRoute = require("express").Router();
 const usersController = require("../controllers/users-controller");
-
+const {
+  addUserValidation,
+  editUserValidation,
+} = require("../middleware/validators/validators");
 // Get all users
 usersRoute.get(
   "/",
@@ -31,7 +34,8 @@ usersRoute.get(
 
 // Add an user
 usersRoute.post(
-  "/",
+  "/add",
+  addUserValidation,
   usersController.addUser
   /* #swagger.summary = 'Adds a new User.' */
   /* #swagger.description = 'Adds a new User to the database .' */
@@ -50,7 +54,8 @@ usersRoute.post(
 
 // Edit an user
 usersRoute.put(
-  "/:id",
+  "/edit/:id",
+  editUserValidation,
   usersController.editUser
   /* #swagger.summary = 'Edits a User by it's Id.' */
   /* #swagger.description = 'Send updated information about the User by Id to the database.' */
@@ -69,7 +74,7 @@ usersRoute.put(
 
 // Delete an user
 usersRoute.delete(
-  "/:id",
+  "/delete/:id",
   usersController.deleteUser
   /* #swagger.summary = 'Deletes a User by Id.' */
   /* #swagger.description = 'Deletes a User from the database by the User's Id.' */

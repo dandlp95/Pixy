@@ -1,6 +1,10 @@
 // Clips route
 const clipsRoute = require("express").Router();
 const clipsController = require("../controllers/clips-controller");
+const {
+  addMediaValidation,
+  editMediaValidation,
+} = require("../middleware/validators/validators");
 
 //get all clips
 clipsRoute.get(
@@ -32,6 +36,7 @@ clipsRoute.get(
 // Add an clip
 clipsRoute.post(
   "/add",
+  addMediaValidation,
   clipsController.addClip
   /* #swagger.summary = 'Adds a new clip.' */
   /* #swagger.description = 'Adds a new clip to the database .' */
@@ -51,6 +56,7 @@ clipsRoute.post(
 // Edit an clip
 clipsRoute.put(
   "/edit/:id",
+  editMediaValidation,
   clipsController.editClip
   /* #swagger.summary = 'Edits a clip by it's Id.' */
   /* #swagger.description = 'Send updated information about the clip by Id to the database.' */

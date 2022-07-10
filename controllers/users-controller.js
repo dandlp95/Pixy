@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const ObjectId = require("mongoose").ObjectId;
+const { validationResult } = require("express-validator");
 
 const {
   Api400Error,
@@ -10,18 +11,23 @@ const {
 
 // Create new user
 exports.addUser = (req, res, next) => {
+  const errors = validationResult(req);
   try {
-    const user = new User(req.body);
-    user
-      .save()
-      .then((user) => {
-        console.log("new user added");
-        res.json(user);
-      })
-      .catch((err) => {
-        const error = new Api400Error(err.message);
-        next(error);
-      });
+    if (!errors.isEmpty()) {
+      res.status(422).send(errors.array());
+    } else {
+      const user = new User(req.body);
+      user
+        .save()
+        .then((user) => {
+          console.log("new user added");
+          res.json(user);
+        })
+        .catch((err) => {
+          const error = new Api400Error(err.message);
+          next(error);
+        });
+    }
   } catch (err) {
     next(err);
   }
@@ -61,29 +67,34 @@ exports.getUser = async (req, res, next) => {
 
 // Edit user by id
 exports.editUser = (req, res, next) => {
+  const errors = validationResult(req);
   try {
-    const user = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      password: req.body.password,
-    };
+    if (!errors.isEmpty()) {
+      res.status(422).send(errors.array());
+    } else {
+      const user = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password,
+      };
 
-    for (field in user) {
-      if (field === null) {
-        delete field;
+      for (field in user) {
+        if (field === null) {
+          delete field;
+        }
       }
+
+      User.findByIdAndUpdate(req.params.id, media, (err, doc) => {
+        if (err) {
+          const err400 = new Api400Error(err.message);
+          next(err400);
+        } else {
+          console.log(doc);
+          res.status(200).json(doc);
+        }
+      });
     }
-
-    User.findByIdAndUpdate(req.params.id, media, (err, doc) => {
-      if (err) {
-        const err400 = new Api400Error(err.message);
-        next(err400);
-      } else {
-        console.log(doc);
-        res.status(200).json(doc);
-      }
-    });
   } catch (err) {
     next(err);
   }
