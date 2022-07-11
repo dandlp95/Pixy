@@ -9,20 +9,24 @@
   "basePath": "/",
   "tags": [
     {
-      "name": "user",
+      "name": "Users",
       "description": "Operations for users"
     },
     {
-      "name": "albums",
+      "name": "Albums",
       "description": "Operations for albums"
     },
     {
-      "name": "clips",
+      "name": "Clips",
       "description": "Operations for clips"
     },
     {
-      "name": "photos",
+      "name": "Photos",
       "description": "Operations for photos"
+    },
+    {
+      "name": "Other",
+      "description": "Operations for other endpoints"
     }
   ],
   "schemes": [
@@ -40,7 +44,7 @@
         }
       }
     },
-    "/api-docs/api-docs": {
+    "/api-docs": {
       "get": {
         "description": "",
         "parameters": [],
@@ -49,72 +53,81 @@
     },
     "/users/": {
       "get": {
-        "description": "Get all users from the database.",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Gets all Users",
+        "description": "Gets all Users from the database",
+        "operationId": "getUsers.",
         "parameters": [],
         "responses": {
-          "200": 
-          {"description": "Successfully returned all users from the database"
-        },
-        "500": {
-          "description": "There was a problem getting users from the databse"}
-      }},
-
+          "200": {
+            "description": "Returned all Users successfully.",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      },
       "post": {
-        "description": "Creates a new user in the the database",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Adds a new User.",
+        "description": "Adds a new User to the database .",
+        "operationId": "addUser",
         "parameters": [
           {
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "firstName": {
-                  "example": "Geoffrey"
-                },
-                "lastName": {
-                  "example": "Chaucer"
-                },
-                "email": {
-                  "example": "example@email.com"
-                },
-                "password": {
-                  "example": "12345"
-                }
-              }
+              "$ref": "#/definitions/User"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfully added a new user to the database"
-          },
-          "500": {
-            "description": "There was a problem getting users from the databse"}
+            "description": "User successfully sent to database",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
         }
       }
     },
     "/users/{id}": {
       "get": {
-        "description": "Gets a single user by id",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Gets a User by Id.",
+        "description": "Gets a User by the Id requested from the database.",
+        "operationId": "getUser",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "User Id"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfully returned a user from the database"
-          },
-          "500": {
-            "description": "There was a problem returning the user information"
+            "description": "Returned a User by Id successfully",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           }
         }
       },
       "put": {
-        "description": "Modify a user in the database by id",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Edits a User by Id.",
+        "description": "Send updated information about the User by Id to the database.",
+        "operationId": "editUser",
         "parameters": [
           {
             "name": "id",
@@ -126,34 +139,26 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "firstName": {
-                  "example": "William"
-                },
-                "lastName": {
-                  "example": "Shakespeare"
-                },
-                "email": {
-                  "example": "playwright@bard.com"
-                },
-                "password": {
-                  "example": "rose"
-                }
-              }
+              "$ref": "#/definitions/User"
             }
-           } 
-
+          }
         ],
-        "responses": {"200": {
-          "description": "Successfully modified a users."
-        },
-        "500": {
-          "description": "There was a problem modifing the user information"
-        }}
+        "responses": {
+          "200": {
+            "description": "User successfully updated",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Deletes a User by Id.",
+        "description": "Deletes a User from the database by the User Id.",
+        "operationId": "deleteUser",
         "parameters": [
           {
             "name": "id",
@@ -162,139 +167,97 @@
             "type": "string"
           }
         ],
-        "responses": {"200": {
-          "description": "Successfully deleted a user from the database"
-        },
-        "500": {
-          "description": "There was a problem deleting the user"
-        }}
+        "responses": {
+          "200": {
+            "description": "User successfully deleted",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
       }
     },
     "/photos/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Photos"
+        ],
+        "summary": "Gets all Photos",
+        "description": "Gets all Photos from the database",
+        "operationId": "getPhotos.",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
+            "description": "Returned all Photos successfully.",
+            "schema": {
+              "$ref": "#/definitions/Medias"
+            }
           }
         }
       }
     },
     "/photos/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Photos"
+        ],
+        "summary": "Gets a Photo by Id.",
+        "description": "Gets a Photo by the Id requested from the database.",
+        "operationId": "getPhoto",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Photo Id"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
+            "description": "Returned Photo by Id successfully",
+            "schema": {
+              "$ref": "#/definitions/Media"
+            }
           }
         }
       }
     },
-    "/albums/": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/albums/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/albums/add": {
+    "/photos/add": {
       "post": {
-        "description": "",
-        "parameters": [],
+        "tags": [
+          "Photos"
+        ],
+        "summary": "Adds a new Photo.",
+        "description": "Adds a new Photo to the database .",
+        "operationId": "addPhoto",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Media"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Photo successfully sent to database",
+            "schema": {
+              "$ref": "#/definitions/Media"
+            }
           }
         }
       }
     },
-    "/albums/edit/{id}": {
+    "/photos/edit/{id}": {
       "put": {
-        "description": "",
+        "tags": [
+          "Photos"
+        ],
+        "summary": "Edits a Photo by Id.",
+        "description": "Send updated information about the Photo by Id to the database.",
+        "operationId": "editPhoto",
         "parameters": [
           {
             "name": "id",
@@ -306,34 +269,160 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "any"
-                },
-                "photos": {
-                  "example": "any"
-                },
-                "user": {
-                  "example": "any"
-                },
-                "tags": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Media"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Photo successfully updated",
+            "schema": {
+              "$ref": "#/definitions/Media"
+            }
+          }
+        }
+      }
+    },
+    "/photos/delete/{id}": {
+      "delete": {
+        "tags": [
+          "Photos"
+        ],
+        "summary": "Deletes a Photo by Id.",
+        "description": "Deletes a Photo from the database by the Photo Id.",
+        "operationId": "deletePhoto",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Photo successfully deleted",
+            "schema": {
+              "$ref": "#/definitions/Media"
+            }
+          }
+        }
+      }
+    },
+    "/albums/": {
+      "get": {
+        "tags": [
+          "Albums"
+        ],
+        "summary": "Gets all Albums",
+        "description": "Gets all Albums from the database",
+        "operationId": "getAlbums.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returned all Albums successfully.",
+            "schema": {
+              "$ref": "#/definitions/Albums"
+            }
+          }
+        }
+      }
+    },
+    "/albums/{id}": {
+      "get": {
+        "tags": [
+          "Albums"
+        ],
+        "summary": "Gets an Album by Id.",
+        "description": "Gets an Album by the Id requested from the database.",
+        "operationId": "getAlbum",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Album Id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returned an Album by Id successfully",
+            "schema": {
+              "$ref": "#/definitions/Album"
+            }
+          }
+        }
+      }
+    },
+    "/albums/add": {
+      "post": {
+        "tags": [
+          "Albums"
+        ],
+        "summary": "Adds a new Album.",
+        "description": "Adds a new Album to the database .",
+        "operationId": "addAlbum",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Albums"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Album successfully sent to database",
+            "schema": {
+              "$ref": "#/definitions/Album"
+            }
+          }
+        }
+      }
+    },
+    "/albums/edit/{id}": {
+      "put": {
+        "tags": [
+          "Albums"
+        ],
+        "summary": "Edits an Album by Id.",
+        "description": "Send updated information about the Album by Id to the database.",
+        "operationId": "editAlbum",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Albums"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Album successfully updated",
+            "schema": {
+              "$ref": "#/definitions/Album"
+            }
           }
         }
       }
     },
     "/albums/delete/{id}": {
       "delete": {
-        "description": "",
+        "tags": [
+          "Albums"
+        ],
+        "summary": "Deletes an Album by Id.",
+        "description": "Deletes an Album from the database by the Album Id.",
+        "operationId": "deleteAlbum",
         "parameters": [
           {
             "name": "id",
@@ -344,102 +433,253 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Album successfully deleted",
+            "schema": {
+              "$ref": "#/definitions/Album"
+            }
           }
         }
       }
     },
     "/clips/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Clips"
+        ],
+        "summary": "Gets all Clips",
+        "description": "Gets all Clips from the database",
+        "operationId": "getClips.",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
+            "description": "Returned all clips successfully.",
+            "schema": {
+              "$ref": "#/definitions/Medias"
+            }
           }
         }
       }
     },
     "/clips/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Clips"
+        ],
+        "summary": "Gets a clip by Id.",
+        "description": "Gets a clip by the Id requested from the database.",
+        "operationId": "getClip",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Clip Id"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
+            "description": "Returned clip by Id successfully",
+            "schema": {
+              "$ref": "#/definitions/Media"
+            }
           }
         }
       }
     },
-    "/profile/": {
-      "get": {
-        "description": "",
-        "parameters": [],
+    "/clips/add": {
+      "post": {
+        "tags": [
+          "Clips"
+        ],
+        "summary": "Adds a new clip.",
+        "description": "Adds a new clip to the database .",
+        "operationId": "addClip",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Clips"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Clip successfully sent to database",
+            "schema": {
+              "$ref": "#/definitions/Media"
+            }
           }
         }
+      }
+    },
+    "/clips/edit/{id}": {
+      "put": {
+        "tags": [
+          "Clips"
+        ],
+        "summary": "Edits a clip by Id.",
+        "description": "Send updated information about the clip by Id to the database.",
+        "operationId": "editClip",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Media"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Clip successfully updated",
+            "schema": {
+              "$ref": "#/definitions/Media"
+            }
+          }
+        }
+      }
+    },
+    "/clips/delete/{id}": {
+      "delete": {
+        "tags": [
+          "Clips"
+        ],
+        "summary": "Deletes a clip by Id.",
+        "description": "Deletes a clip from the database by the clip Id.",
+        "operationId": "deleteClip",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Clip successfully deleted",
+            "schema": {
+              "$ref": "#/definitions/Media"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "example": "User's First Name"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "User's Last Name"
+        },
+        "email": {
+          "type": "string",
+          "example": "usersemail@email.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "User's Password"
+        }
+      }
+    },
+    "Users": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/User"
+      }
+    },
+    "Media": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Media's Name"
+        },
+        "description": {
+          "type": "string",
+          "example": "Media's Description"
+        },
+        "encodedMedia": {
+          "type": "string",
+          "example": "Encoded Media"
+        },
+        "location": {
+          "type": "string",
+          "example": "Media's Location"
+        },
+        "user": {
+          "type": "string",
+          "example": "User's name who created the media"
+        },
+        "cameraUsed": {
+          "type": "string",
+          "example": "Camera Type"
+        },
+        "tags": {
+          "type": "array",
+          "example": [
+            "tagOne",
+            "tagTwo"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Medias": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Media"
+      }
+    },
+    "Album": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Album's Name"
+        },
+        "photos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Medias"
+          }
+        },
+        "user": {
+          "type": "string",
+          "example": "Owner of the Album"
+        },
+        "tags": {
+          "type": "array",
+          "example": [
+            "tagOne",
+            "tagTwo"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Albums": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Album"
       }
     }
   }

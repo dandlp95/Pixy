@@ -11,22 +11,52 @@ const doc = {
    schemes: ['http'],
    tags: [
       {
-         name: 'user',
+         name: 'Users',
          description: 'Operations for users',
       },
       {
-         name: 'albums',
+         name: 'Albums',
          description: 'Operations for albums',
       },
       {
-         name: 'clips',
+         name: 'Clips',
          description: 'Operations for clips',
       },
       {
-         name: 'photos',
+         name: 'Photos',
          description: 'Operations for photos',
+      },      
+      {
+         name: 'Other',
+         description: 'Operations for other endpoints',
       },
    ],
+   definitions: {
+      User: {
+         firstName: "User's First Name",
+         lastName: "User's Last Name",
+         email: "usersemail@email.com",
+         password: "User's Password",
+      },
+      Users:[{$ref: "#/definitions/User"}],
+      Media: {
+         name: "Media's Name",
+         description: "Media's Description",
+         encodedMedia: "Encoded Media",
+         location: "Media's Location",
+         user: "User's name who created the media",
+         cameraUsed: "Camera Type",
+         tags: [ "tagOne", "tagTwo" ]
+      },
+      Medias:[{ $ref: "#/definitions/Media" }],
+      Album: {
+         name: "Album's Name",
+         photos: [{ $ref: "#/definitions/Medias" }],
+         user: "Owner of the Album",
+         tags: [ "tagOne", "tagTwo" ]
+      },
+      Albums:[{ $ref: "#/definitions/Album" }],
+   }
 };
 
 const outputFile = './swagger-output.json';
