@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const ObjectId = require("mongoose").ObjectId;
 const { validationResult } = require("express-validator");
+const { encryptPassword } = require("../middleware/utilities/encryptPassword");
 
 const {
   Api400Error,
@@ -66,12 +67,15 @@ exports.getUser = async (req, res, next) => {
 };
 
 // Edit user by id
-exports.editUser = (req, res, next) => {
+exports.editUser = async (req, res, next) => {
   const errors = validationResult(req);
   try {
     if (!errors.isEmpty()) {
       res.status(422).send(errors.array());
     } else {
+      if (req.body.password) {
+        req.body.password = await encryptPassword(req.body.password); // Password needs to be encrypted here since save method is not used.
+      }
       const user = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
