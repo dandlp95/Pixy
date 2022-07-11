@@ -42,6 +42,7 @@ exports.addUserValidation = [
       if (!match) {
         throw new Error("Invalid password");
       }
+      return true;
     })
     .withMessage(
       "Please enter a password of at least 8 characters, 1 letter and 1 number."
@@ -81,6 +82,7 @@ exports.editUserValidation = [
       if (!match) {
         throw new Error("Invalid password");
       }
+      return true;
     })
     .withMessage(
       "Please enter a password of at least 8 characters, 1 letter and 1 number."

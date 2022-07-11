@@ -85,12 +85,11 @@ exports.editUser = (req, res, next) => {
         }
       }
 
-      User.findByIdAndUpdate(req.params.id, media, (err, doc) => {
+      User.findByIdAndUpdate(req.params.id, user, (err, doc) => {
         if (err) {
           const err400 = new Api400Error(err.message);
           next(err400);
         } else {
-          console.log(doc);
           res.status(200).json(doc);
         }
       });
