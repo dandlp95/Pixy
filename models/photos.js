@@ -28,7 +28,10 @@ const photoSchema = new Schema({
   cameraUsed: {
     type: String,
   },
-  tags: [String],
+  tags: {
+    type: [String],
+    default: [],
+  },
 });
 
 module.exports = mongoose.model("Photo", photoSchema);

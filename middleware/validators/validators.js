@@ -94,7 +94,7 @@ exports.addMediaValidation = [
     .notEmpty()
     .withMessage("Please enter a name for the photograph.")
 
-    .isLength({ max: 700 })
+    .isLength({ max: 300 })
     .withMessage("Maximum number of characters allowed"),
 
   body("description")
@@ -102,20 +102,37 @@ exports.addMediaValidation = [
     .isLength({ max: 2000 })
     .withMessage("Maximum number of characters exceeded"),
 
-  body("encodedMedia").notEmpty().withMessage("Please upload picture"),
+  body("encodedMedia")
+    .notEmpty()
+    .withMessage("Please upload picture")
+
+    .custom((b64String) => {
+      // Checks if string is valid base64:
+      match =
+        /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$/.test(
+          b64String
+        );
+      if (!match) {
+        throw new Error("Invalid string");
+      }
+      return true;
+    })
+    .withMessage("Please enter a valid base64 string."),
 
   body("location")
     .notEmpty()
     .isLength({ max: 200 })
     .withMessage("Maximum number of characters exceeded"),
 
-  body("user").custom((user) => {
-    return User.findById(user).then((user) => {
-      if (!user) {
-        return Promise.reject("User doesnt exist.");
-      }
-    });
-  }),
+  body("user")
+    .custom((user) => {
+      return User.findById(user).then((user) => {
+        if (!user) {
+          return Promise.reject("User doesnt exist.");
+        }
+      });
+    })
+    .withMessage("Invalid user Id."),
 
   body("cameraUsed")
     .isLength({ max: 200 })
@@ -147,13 +164,13 @@ exports.editMediaValidation = [
     .isLength({ max: 200 })
     .withMessage("Maximum number of characters exceeded"),
 
-  body("user").custom((user) => {
-    return User.findById(user).then((user) => {
-      if (!user) {
-        return Promise.reject("User doesnt exist.");
-      }
-    });
-  }),
+  body("user")
+    .optional({ nullable: true })
+    // Gets triggered if user field is added in body
+    .custom((user) => {
+      throw new Error("User id can't be changed.");
+    })
+    .withMessage("User id can't be changed."),
 
   body("cameraUsed")
     .optional({ nullable: true })
