@@ -6,6 +6,7 @@ const usersController = require("../controllers/users-controller");
 usersRoute.get(
   "/",
   usersController.getUsers
+  /* #swagger.tags = ['Users'] */
   /* #swagger.summary = 'Gets all Users' */
   /* #swagger.description = 'Gets all Users from the database' */
   /* #swagger.operationId = 'getUsers.' */
@@ -19,13 +20,14 @@ usersRoute.get(
 usersRoute.get(
   "/:id",
   usersController.getUser
-  /* #swagger.summary = 'Gets a User by it's Id.' */
+  /* #swagger.tags = ['Users'] */
+  /* #swagger.summary = 'Gets a User by Id.' */
   /* #swagger.description = 'Gets a User by the Id requested from the database.' */
   /* #swagger.operationId = 'getUser' */
   /* #swagger.parameters['id'] = {description: 'User Id'} */
   /* #swagger.responses[200] = {
       description: 'Returned a User by Id successfully',
-      schema: { $ref: '#/definitions/Users'}
+      schema: { $ref: '#/definitions/User'}
     } */
 );
 
@@ -33,17 +35,18 @@ usersRoute.get(
 usersRoute.post(
   "/",
   usersController.addUser
+  /* #swagger.tags = ['Users'] */
   /* #swagger.summary = 'Adds a new User.' */
   /* #swagger.description = 'Adds a new User to the database .' */
   /* #swagger.operationId = 'addUser' */
   /* #swagger.parameters = [{
       name: 'body', 
       in:'body',
-      schema: { $ref: '#/definitions/Users' }
+      schema: { $ref: '#/definitions/User' }
     }] */
   /* #swagger.responses[200] = {
       description: 'User successfully sent to database',
-      schema: { $ref: '#/definitions/Users'}
+      schema: { $ref: '#/definitions/User'}
     }
     */
 );
@@ -52,17 +55,18 @@ usersRoute.post(
 usersRoute.put(
   "/:id",
   usersController.editUser
-  /* #swagger.summary = 'Edits a User by it's Id.' */
+  /* #swagger.tags = ['Users'] */
+  /* #swagger.summary = 'Edits a User by Id.' */
   /* #swagger.description = 'Send updated information about the User by Id to the database.' */
   /* #swagger.operationId = 'editUser' */
   /* #swagger.parameters = [{
   name: 'body', 
   in:'body',
-  schema: { $ref: '#/definitions/Users' }
+  schema: { $ref: '#/definitions/User' }
 }] */
   /* #swagger.responses[200] = {
   description: 'User successfully updated',
-  schema: { $ref: '#/definitions/Users'}
+  schema: { $ref: '#/definitions/User'}
 }
 */
 );
@@ -71,12 +75,13 @@ usersRoute.put(
 usersRoute.delete(
   "/:id",
   usersController.deleteUser
+  /* #swagger.tags = ['Users'] */
   /* #swagger.summary = 'Deletes a User by Id.' */
-  /* #swagger.description = 'Deletes a User from the database by the User's Id.' */
+  /* #swagger.description = 'Deletes a User from the database by the User Id.' */
   /* #swagger.operationId = 'deleteUser' */
   /* #swagger.responses[200] = {
 description: 'User successfully deleted',
-schema: { $ref: '#/definitions/Users'}
+schema: { $ref: '#/definitions/User'}
 }
 */
 );

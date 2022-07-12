@@ -6,12 +6,13 @@ const clipsController = require("../controllers/clips-controller");
 clipsRoute.get(
   "/",
   clipsController.getClips
+  /* #swagger.tags = ['Clips'] */
   /* #swagger.summary = 'Gets all Clips' */
   /* #swagger.description = 'Gets all Clips from the database' */
   /* #swagger.operationId = 'getClips.' */
   /* #swagger.responses[200] = {
         description: 'Returned all clips successfully.',
-        schema: {$ref: '#/definitions/Clips'}
+        schema: {$ref: '#/definitions/Medias'}
     } */
 );
 
@@ -19,13 +20,14 @@ clipsRoute.get(
 clipsRoute.get(
   "/:id",
   clipsController.getClip
-  /* #swagger.summary = 'Gets a clip by it's Id.' */
+  /* #swagger.tags = ['Clips'] */
+  /* #swagger.summary = 'Gets a clip by Id.' */
   /* #swagger.description = 'Gets a clip by the Id requested from the database.' */
   /* #swagger.operationId = 'getClip' */
   /* #swagger.parameters['id'] = {description: 'Clip Id'} */
   /* #swagger.responses[200] = {
       description: 'Returned clip by Id successfully',
-      schema: { $ref: '#/definitions/Clips'}
+      schema: { $ref: '#/definitions/Media'}
     } */
 );
 
@@ -33,6 +35,7 @@ clipsRoute.get(
 clipsRoute.post(
   "/add",
   clipsController.addClip
+  /* #swagger.tags = ['Clips'] */
   /* #swagger.summary = 'Adds a new clip.' */
   /* #swagger.description = 'Adds a new clip to the database .' */
   /* #swagger.operationId = 'addClip' */
@@ -43,7 +46,7 @@ clipsRoute.post(
     }] */
   /* #swagger.responses[200] = {
       description: 'Clip successfully sent to database',
-      schema: { $ref: '#/definitions/Clips'}
+      schema: { $ref: '#/definitions/Media'}
     }
     */
 );
@@ -52,17 +55,18 @@ clipsRoute.post(
 clipsRoute.put(
   "/edit/:id",
   clipsController.editClip
-  /* #swagger.summary = 'Edits a clip by it's Id.' */
+  /* #swagger.tags = ['Clips'] */
+  /* #swagger.summary = 'Edits a clip by Id.' */
   /* #swagger.description = 'Send updated information about the clip by Id to the database.' */
   /* #swagger.operationId = 'editClip' */
   /* #swagger.parameters = [{
   name: 'body', 
   in:'body',
-  schema: { $ref: '#/definitions/Clip' }
+  schema: { $ref: '#/definitions/Media' }
 }] */
   /* #swagger.responses[200] = {
   description: 'Clip successfully updated',
-  schema: { $ref: '#/definitions/Clips'}
+  schema: { $ref: '#/definitions/Media'}
 }
 */
 );
@@ -71,12 +75,13 @@ clipsRoute.put(
 clipsRoute.delete(
   "/delete/:id",
   clipsController.deleteClip
+  /* #swagger.tags = ['Clips'] */
   /* #swagger.summary = 'Deletes a clip by Id.' */
-  /* #swagger.description = 'Deletes a clip from the database by the clip's Id.' */
+  /* #swagger.description = 'Deletes a clip from the database by the clip Id.' */
   /* #swagger.operationId = 'deleteClip' */
   /* #swagger.responses[200] = {
 description: 'Clip successfully deleted',
-schema: { $ref: '#/definitions/Clips'}
+schema: { $ref: '#/definitions/Media'}
 }
 */
 );
