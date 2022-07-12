@@ -10,12 +10,14 @@ exports.addUserValidation = [
 
     .isLength({ max: 40 })
     .withMessage("Name exceeds maximum number of characters"),
+  // firstName can't be empty and no longer than 40 characters.
 
   body("lastName")
     .notEmpty()
     .withMessage("Please enter your last name")
     .isLength({ max: 40 })
     .withMessage("Name exceeds maximum number of characters"),
+  /* lastName can't be empty and no longer than 40 characters. */
 
   body("email")
     .notEmpty()
@@ -31,6 +33,8 @@ exports.addUserValidation = [
         }
       });
     }),
+  /* email can't be empty, has to be valid email format, and can't
+  be the same as another user's email in the database. */
 
   body("password")
     .notEmpty()
@@ -47,9 +51,13 @@ exports.addUserValidation = [
     .withMessage(
       "Please enter a password of at least 8 characters, 1 letter and 1 number."
     ),
+  /* Password can't be empty, needs at leaset 8 characters with 1 letter and
+  1 number. */
 ];
 
 exports.editUserValidation = [
+  /* editUserValidation is exactly the same as addUserValidation but all fields
+  are optional. Only send the field you want to edit in PUT request. */
   body("firstName")
     .optional({ nullable: true })
     .isLength({ max: 40 })
@@ -96,11 +104,14 @@ exports.addMediaValidation = [
 
     .isLength({ max: 300 })
     .withMessage("Maximum number of characters allowed"),
+  /* name can't be empty and no longer than 300 characters */
 
   body("description")
     .optional({ null: true })
     .isLength({ max: 2000 })
     .withMessage("Maximum number of characters exceeded"),
+  /* description is an optional value, but if provided, it can't be longer
+  than 2000 characters. */
 
   body("encodedMedia")
     .notEmpty()
@@ -118,11 +129,15 @@ exports.addMediaValidation = [
       return true;
     })
     .withMessage("Please enter a valid base64 string."),
+  /* encodedMedia can't be empty and has to be base64 format. */
 
   body("location")
     .notEmpty()
     .isLength({ max: 200 })
     .withMessage("Maximum number of characters exceeded"),
+
+  /* Location can't be empty and no longer than 200 characters if 
+  provided. */
 
   body("user")
     .custom((user) => {
@@ -134,16 +149,22 @@ exports.addMediaValidation = [
     })
     .withMessage("Invalid user Id."),
 
+  /* user has to be a valid string to use as ObjectId and exist in the 
+  user collection. */
+
   body("cameraUsed")
+    .optional({ nullable: true })
     .isLength({ max: 200 })
     .withMessage("Maximum number of characters exceeded"),
 
-  body("tags")
-    .isLength({ max: 200 })
-    .withMessage("Maximum number of characters exceeded"),
+  /* cameraUsed is optional fied, but can't be longer than 200 characters
+  if provided.*/
 ];
 
 exports.editMediaValidation = [
+  /* Almost the same as addMediaValidation with the exception that it will
+  throw an error if user field is passed. We don't want to be able to change
+  media's userId. */
   body("name")
     .optional({ nullable: true })
     .isLength({ max: 700 })
@@ -176,11 +197,6 @@ exports.editMediaValidation = [
     .optional({ nullable: true })
     .isLength({ max: 200 })
     .withMessage("Maximum number of characters exceeded"),
-
-  body("tags")
-    .optional({ nullable: true })
-    .isLength({ max: 200 })
-    .withMessage("Maximum number of characters exceeded"),
 ];
 
 exports.addAlbumValidation = [
@@ -190,6 +206,7 @@ exports.addAlbumValidation = [
 
     .isLength({ max: 200 })
     .withMessage("Maximum number of characters exceeded"),
+  /* name is required and can't be longer than 200 characters. */
 
   body("photos")
     .custom((photos) => {
@@ -207,6 +224,9 @@ exports.addAlbumValidation = [
       }
     })
     .withMessage("Photo Id's not valid."),
+  /* photos value needs to be an array, each value inside array needs to
+  be a valid ObjectId string, and has to return a photo in the photo database.
+  */
 
   body("user")
     .notEmpty()
@@ -219,9 +239,14 @@ exports.addAlbumValidation = [
         }
       });
     }),
+  /* user field is required, and the id needs to return a user from user 
+  collection*/
 ];
 
 exports.editAlbumValidation = [
+  /* Almost the same as addAlbumValidation with the exception that it will
+  throw an error if user field is passed. We don't want to be able to change
+  media's userId. */
   body("name")
     .optional({ nullable: true })
     .isLength({ max: 200 })
@@ -244,7 +269,7 @@ exports.editAlbumValidation = [
       }
     })
     .withMessage("Photo Id's not valid."),
-  // Double check if this works
+
   body("user")
     .optional({ nullable: true })
     .custom((user) => {
