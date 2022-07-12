@@ -191,14 +191,22 @@ exports.addAlbumValidation = [
     .isLength({ max: 200 })
     .withMessage("Maximum number of characters exceeded"),
 
-  body("photos").custom((photos) => {
-    photos.forEach((photoId) => {
-      var photo = Photo.findById(photoId);
-      if (!photo) {
-        throw new Error("Photo not found.");
+  body("photos")
+    .custom((photos) => {
+      if (!Array.isArray(photos)) {
+        throw new Error("Not type array.");
       }
-    });
-  }),
+      for (let i = 0; i < photos.length; i++) {
+        if (mongoose.isValidObjectId(photos[i])) {
+          return Photo.findById(photos[i]).then((photo) => {
+            if (!photo) {
+              return Promise.reject("Photo doesn't exist.");
+            }
+          });
+        }
+      }
+    })
+    .withMessage("Photo Id's not valid."),
 
   body("user")
     .notEmpty()
@@ -222,17 +230,25 @@ exports.editAlbumValidation = [
   body("photos")
     .optional({ nullable: true })
     .custom((photos) => {
-      photos.forEach((photoId) => {
-        var photo = Photo.findById(photoId);
-        if (!photo) {
-          throw new Error("Photo not found.");
+      if (!Array.isArray(photos)) {
+        throw new Error("Not type array.");
+      }
+      for (let i = 0; i < photos.length; i++) {
+        if (mongoose.isValidObjectId(photos[i])) {
+          return Photo.findById(photos[i]).then((photo) => {
+            if (!photo) {
+              return Promise.reject("Photo doesn't exist.");
+            }
+          });
         }
-      });
-    }),
+      }
+    })
+    .withMessage("Photo Id's not valid."),
   // Double check if this works
-  body("user").custom((userId) => {
-    if (userId) {
-      throw new Error("Album username can't be changed.");
-    }
-  }),
+  body("user")
+    .optional({ nullable: true })
+    .custom((user) => {
+      throw new Error("User id can't be changed.");
+    })
+    .withMessage("User id can't be changed."),
 ];
