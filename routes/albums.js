@@ -1,4 +1,5 @@
 // Albums Route
+const { requiresAuth } = require("express-openid-connect");
 const albumsRoute = require("express").Router();
 const albumsController = require("../controllers/albums-controller");
 const {
@@ -7,7 +8,7 @@ const {
 } = require("../middleware/validators/validators");
 // Get all albums
 albumsRoute.get(
-  "/",
+  "/", requiresAuth(),
   albumsController.getAlbums
   /* #swagger.tags = ['Albums'] */
   /* #swagger.summary = 'Gets all Albums' */
@@ -21,7 +22,7 @@ albumsRoute.get(
 
 // Get one album
 albumsRoute.get(
-  "/:id",
+  "/:id", requiresAuth(),
   albumsController.getAlbum
   /* #swagger.tags = ['Albums'] */
   /* #swagger.summary = 'Gets an Album by Id.' */
@@ -36,7 +37,7 @@ albumsRoute.get(
 
 // Add an album
 albumsRoute.post(
-  "/add",
+  "/add", requiresAuth(),
   addAlbumValidation,
   albumsController.addAlbum
   /* #swagger.tags = ['Albums'] */
@@ -57,7 +58,7 @@ albumsRoute.post(
 
 // Edit an album
 albumsRoute.put(
-  "/edit/:id",
+  "/edit/:id", requiresAuth(),
   editAlbumValidation,
   albumsController.editAlbum
   /* #swagger.tags = ['Albums'] */
@@ -78,7 +79,7 @@ albumsRoute.put(
 
 // Delete an album
 albumsRoute.delete(
-  "/delete/:id",
+  "/delete/:id", requiresAuth(),
   albumsController.deleteAlbum
   /* #swagger.tags = ['Albums'] */
   /* #swagger.summary = 'Deletes an Album by Id.' */

@@ -1,4 +1,5 @@
 // Clips route
+const { requiresAuth } = require("express-openid-connect");
 const clipsRoute = require("express").Router();
 const clipsController = require("../controllers/clips-controller");
 const {
@@ -8,7 +9,7 @@ const {
 
 //get all clips
 clipsRoute.get(
-  "/",
+  "/", requiresAuth(),
   clipsController.getClips
   /* #swagger.tags = ['Clips'] */
   /* #swagger.summary = 'Gets all Clips' */
@@ -22,7 +23,7 @@ clipsRoute.get(
 
 // Get one clip
 clipsRoute.get(
-  "/:id",
+  "/:id", requiresAuth(),
   clipsController.getClip
   /* #swagger.tags = ['Clips'] */
   /* #swagger.summary = 'Gets a clip by Id.' */
@@ -37,7 +38,7 @@ clipsRoute.get(
 
 // Add an clip
 clipsRoute.post(
-  "/add",
+  "/add", requiresAuth(),
   addMediaValidation,
   clipsController.addClip
   /* #swagger.tags = ['Clips'] */
@@ -58,7 +59,7 @@ clipsRoute.post(
 
 // Edit an clip
 clipsRoute.put(
-  "/edit/:id",
+  "/edit/:id", requiresAuth(),
   editMediaValidation,
   clipsController.editClip
   /* #swagger.tags = ['Clips'] */
@@ -79,7 +80,7 @@ clipsRoute.put(
 
 // Delete an clip
 clipsRoute.delete(
-  "/delete/:id",
+  "/delete/:id", requiresAuth(),
   clipsController.deleteClip
   /* #swagger.tags = ['Clips'] */
   /* #swagger.summary = 'Deletes a clip by Id.' */

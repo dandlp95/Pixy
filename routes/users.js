@@ -1,4 +1,5 @@
 // Users route
+const { requiresAuth } = require("express-openid-connect");
 const usersRoute = require("express").Router();
 const usersController = require("../controllers/users-controller");
 const {
@@ -7,7 +8,7 @@ const {
 } = require("../middleware/validators/validators");
 // Get all users
 usersRoute.get(
-  "/",
+  "/", requiresAuth(),
   usersController.getUsers
   /* #swagger.tags = ['Users'] */
   /* #swagger.summary = 'Gets all Users' */
@@ -21,7 +22,7 @@ usersRoute.get(
 
 // Get one user
 usersRoute.get(
-  "/:id",
+  "/:id", requiresAuth(),
   usersController.getUser
   /* #swagger.tags = ['Users'] */
   /* #swagger.summary = 'Gets a User by Id.' */
@@ -36,7 +37,7 @@ usersRoute.get(
 
 // Add an user
 usersRoute.post(
-  "/add",
+  "/add", requiresAuth(),
   addUserValidation,
   usersController.addUser
   /* #swagger.tags = ['Users'] */
@@ -57,7 +58,7 @@ usersRoute.post(
 
 // Edit an user
 usersRoute.put(
-  "/edit/:id",
+  "/edit/:id", requiresAuth(),
   editUserValidation,
   usersController.editUser
   /* #swagger.tags = ['Users'] */
@@ -78,7 +79,7 @@ usersRoute.put(
 
 // Delete an user
 usersRoute.delete(
-  "/delete/:id",
+  "/delete/:id", requiresAuth(),
   usersController.deleteUser
   /* #swagger.tags = ['Users'] */
   /* #swagger.summary = 'Deletes a User by Id.' */
