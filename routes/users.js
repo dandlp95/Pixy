@@ -34,6 +34,51 @@ usersRoute.get(
     } */
 );
 
+//get a users albums
+usersRoute.get(
+  "/userAlbums/:id",
+  usersController.userAlbums
+  /* #swagger.tags = ['Users'] */
+  /* #swagger.summary = 'Get all albums from a user.' */
+  /* #swagger.description = 'Get all albums from a user.' */
+  /* #swagger.operationId = 'userAlbums' */
+  /* #swagger.parameters['id'] = {description: 'User Id'} */
+  /* #swagger.responses[200] = {
+      description: 'Successfully returned albums from this user',
+      schema: { $ref: '#/definitions/Albums'}
+    } */
+);
+
+//get a users clips
+usersRoute.get(
+  "/userClips/:id",
+  usersController.userClips
+  /* #swagger.tags = ['Users'] */
+  /* #swagger.summary = 'Get all Clips from a user.' */
+  /* #swagger.description = 'Get Clips albums from a user.' */
+  /* #swagger.operationId = 'userClips' */
+  /* #swagger.parameters['id'] = {description: 'User Id'} */
+  /* #swagger.responses[200] = {
+      description: 'Successfully returned Clips from this user',
+      schema: { $ref: '#/definitions/Medias'}
+    } */
+);
+
+//get a users photos
+usersRoute.get(
+  "/userPhotos/:id",
+  usersController.userPhotos
+  /* #swagger.tags = ['Users'] */
+  /* #swagger.summary = 'Get all Photos from a user.' */
+  /* #swagger.description = 'Get all Photos from a user.' */
+  /* #swagger.operationId = 'userPhotos' */
+  /* #swagger.parameters['id'] = {description: 'User Id'} */
+  /* #swagger.responses[200] = {
+      description: 'Successfully returned Photos from this user',
+      schema: { $ref: '#/definitions/Medias'}
+    } */
+);
+
 // Add an user
 usersRoute.post(
   "/add",
