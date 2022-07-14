@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
+const Album = mongoose.model("Album");
+const Clip = mongoose.model("Clip");
+const Photo = mongoose.model("Photo");
 const ObjectId = require("mongoose").ObjectId;
 const { validationResult } = require("express-validator");
 const { encryptPassword } = require("../middleware/utilities/encryptPassword");
@@ -105,6 +108,33 @@ exports.editUser = async (req, res, next) => {
 
 // Delete user by id
 exports.deleteUser = (req, res, next) => {
+  Album.deleteMany({ user: req.params.id }, (err, docs) => {
+    if (err) {
+      const err400 = new Api400Error(err.message);
+      next(err400);
+    } else {
+      console.log(docs);
+    }
+  });
+
+  Clip.deleteMany({ user: req.params.id }, (err, docs) => {
+    if (err) {
+      const err400 = new Api400Error(err.message);
+      next(err400);
+    } else {
+      console.log(docs);
+    }
+  });
+
+  Photo.deleteMany({ user: req.params.id }, (err, docs) => {
+    if (err) {
+      const err400 = new Api400Error(err.message);
+      next(err400);
+    } else {
+      console.log(docs)
+    }
+  });
+
   User.findByIdAndDelete(req.params.id, (err, doc) => {
     if (err) {
       const err400 = new Api400Error(err.message);
