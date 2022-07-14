@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Album = mongoose.model("Album");
+const Photo = mongoose.model("Photo");
 
 const {
   Api400Error,
@@ -51,8 +52,20 @@ exports.getAlbums = async (req, res, next) => {
 exports.getAlbum = async (req, res, next) => {
   try {
     const result = await Album.findById(req.params.id);
+
     if (result) {
+      // Removes IDs from pictures that are no longer in the db.
+      result.photos.forEach(async function (photoId, idx, arr) {
+        const photo = await Photo.findById(photoId);
+        if (!photo) {
+          arr.splice(idx, 1);
+        } else {
+          console.log(`This is the array now: ${result.photos}`);
+        }
+      });
+      await result.save();
       res.status(200).json(result);
+
       console.log(
         `One Album: ${req.params.id}! From the albumController file.`
       );
@@ -60,7 +73,8 @@ exports.getAlbum = async (req, res, next) => {
       throw new Api404Error("Album not found.");
     }
   } catch (err) {
-    next(err); // throw wont work here because its a "callback"
+    const apiError = Api400Error(err.message);
+    next(apiError); // throw wont work here because its a "callback"
   }
 };
 
