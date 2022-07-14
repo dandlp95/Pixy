@@ -125,7 +125,7 @@ operations.delete = (Schema) => {
         next(err400);
       } else {
         if (doc === null) {
-          res.status(200).send("Already Deleted.");
+          res.status(200).send("Already deleted or doesn't exist.");
         } else {
           res.status(200).json(doc);
         }
