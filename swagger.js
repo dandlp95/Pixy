@@ -6,9 +6,9 @@ const doc = {
       description: 'A place where photographers can share their work, which users can access and download for free.',
       version: '1.0.0',
    },
-   host: 'localhost:3000',
+   host: 'pixy-app.herokuapp.com',
    basePath: '/',
-   schemes: ['http'],
+   schemes: ['https'],
    tags: [
       {
          name: 'Users',
