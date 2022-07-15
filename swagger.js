@@ -44,7 +44,7 @@ const doc = {
          description: "Media's Description",
          encodedMedia: "Encoded Media",
          location: "Media's Location",
-         user: "User's name who created the media",
+         user: "User's Id",
          cameraUsed: "Camera Type",
          tags: [ "tagOne", "tagTwo" ]
       },
@@ -52,7 +52,7 @@ const doc = {
       Album: {
          name: "Album's Name",
          photos: [{ $ref: "#/definitions/Medias" }],
-         user: "Owner of the Album",
+         user: "User's Id",
          tags: [ "tagOne", "tagTwo" ]
       },
       Albums:[{ $ref: "#/definitions/Album" }],

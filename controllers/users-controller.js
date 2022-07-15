@@ -69,6 +69,60 @@ exports.getUser = async (req, res, next) => {
   }
 };
 
+//get User Albums
+exports.userAlbums = async (req, res, next) => {
+  try {
+    const result = await Album.find({
+      user: req.params.id
+    });
+    if (result) {
+      res.status(200).json(result);
+      console.log('Albums Returned');
+    } else {
+      const err404 = new Api404Error("Not found.");
+      next(err404);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+//get User Clips
+exports.userClips = async (req, res, next) => {
+  try {
+    const result = await Clip.find({
+      user: req.params.id
+    });
+    if (result) {
+      res.status(200).json(result);
+      console.log('Clips Returned');
+    } else {
+      const err404 = new Api404Error("Not found.");
+      next(err404);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+//get User Photos
+exports.userPhotos = async (req, res, next) => {
+  try {
+    const result = await Photo.find({
+      user: req.params.id
+    });
+    if (result) {
+      res.status(200).json(result);
+      console.log('Photos Returned');
+    } else {
+      const err404 = new Api404Error("Not found.");
+      next(err404);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 // Edit user by id
 exports.editUser = async (req, res, next) => {
   const errors = validationResult(req);
@@ -108,7 +162,9 @@ exports.editUser = async (req, res, next) => {
 
 // Delete user by id
 exports.deleteUser = (req, res, next) => {
-  Album.deleteMany({ user: req.params.id }, (err, docs) => {
+  Album.deleteMany({
+    user: req.params.id
+  }, (err, docs) => {
     if (err) {
       const err400 = new Api400Error(err.message);
       next(err400);
@@ -117,7 +173,9 @@ exports.deleteUser = (req, res, next) => {
     }
   });
 
-  Clip.deleteMany({ user: req.params.id }, (err, docs) => {
+  Clip.deleteMany({
+    user: req.params.id
+  }, (err, docs) => {
     if (err) {
       const err400 = new Api400Error(err.message);
       next(err400);
@@ -126,7 +184,9 @@ exports.deleteUser = (req, res, next) => {
     }
   });
 
-  Photo.deleteMany({ user: req.params.id }, (err, docs) => {
+  Photo.deleteMany({
+    user: req.params.id
+  }, (err, docs) => {
     if (err) {
       const err400 = new Api400Error(err.message);
       next(err400);

@@ -47,7 +47,7 @@ clipsRoute.post(
   /* #swagger.parameters = [{
       name: 'body', 
       in:'body',
-      schema: { $ref: '#/definitions/Clips' }
+      schema: { $ref: '#/definitions/Media' }
     }] */
   /* #swagger.responses[200] = {
       description: 'Clip successfully sent to database',
