@@ -1,4 +1,5 @@
 // Photos route
+const { requiresAuth } = require("express-openid-connect");
 const photosRoute = require("express").Router();
 const photosController = require("../controllers/photos-controller");
 const {
@@ -8,7 +9,7 @@ const {
 
 // Get all photos
 photosRoute.get(
-  "/",
+  "/", requiresAuth(),
   photosController.getPhotos
   /* #swagger.tags = ['Photos'] */
   /* #swagger.summary = 'Gets all Photos' */
@@ -22,7 +23,7 @@ photosRoute.get(
 
 // Get one photo
 photosRoute.get(
-  "/:id",
+  "/:id", requiresAuth(),
   photosController.getPhoto
   /* #swagger.tags = ['Photos'] */
   /* #swagger.summary = 'Gets a Photo by Id.' */
@@ -37,7 +38,7 @@ photosRoute.get(
 
 // Add an photo
 photosRoute.post(
-  "/add",
+  "/add", requiresAuth(),
   addMediaValidation,
   photosController.addPhoto
   /* #swagger.tags = ['Photos'] */
@@ -58,7 +59,7 @@ photosRoute.post(
 
 // Edit an photo
 photosRoute.put(
-  "/edit/:id",
+  "/edit/:id", requiresAuth(),
   editMediaValidation,
   photosController.editPhoto
   /* #swagger.tags = ['Photos'] */
@@ -79,7 +80,7 @@ photosRoute.put(
 
 // Delete an photo
 photosRoute.delete(
-  "/delete/:id",
+  "/delete/:id", requiresAuth(),
   photosController.deletePhoto
   /* #swagger.tags = ['Photos'] */
   /* #swagger.summary = 'Deletes a Photo by Id.' */
